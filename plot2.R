@@ -12,7 +12,7 @@ plot2 <- function(){
 ## Margin are adjusted to replicate the reference plot.
 plotData <- function(data){
         png(file = "plot2.png", width = 480, height = 480, bg = "transparent")
-        par(mfrow = c(1,1), mar = c(4.8, 4.1, 3.4, 0.1))
+        par(mfrow = c(1,1), mar = c(4.8, 4.1, 3.4, 2))
         ## type = l for lines
         plot(x = data$DateTime, y = data$Global_active_power, type ="l", xlab = "", ylab = "Global Active Power (kilowatts)")
         dev.off()
