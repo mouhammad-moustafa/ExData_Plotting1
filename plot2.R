@@ -1,6 +1,6 @@
 source("readData.R")
 
-## Reads the Data and plot the Global Active Power Histogram 
+## Reads the Data and plots plot2.png  
 plot2 <- function(){
         data <- readData()
         plotData(data)
