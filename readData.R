@@ -36,7 +36,8 @@ downloadData <- function(){
 ## Data Set as data.frame ha the following columns:
 ## ColName                        ColClass
 ## "Date"                          Date
-## "Time"                          POSIXlt POSIXt
+## "DateTime"                      POSIXlt POSIXt
+## "Time"                          character
 ## "Global_active_power"           numeric
 ## "Global_reactive_power"         numeric
 ## "Voltage"                       numeric
@@ -63,7 +64,13 @@ readData <- function(){
         ## convert Date and Time variables to Date/Time classes in R using:
         ## as.Date: converts charcters to Date using "dd/mm/yyyy" format 
         ## strptime: converts character to time (POSIXlt) using "hh:mm:ss" format
-        res <- transform(res, Date = as.Date(Date, format = "%d/%m/%Y"), Time = strptime(Time, format="%H:%M:%S"))
+        ##res <- transform(res, Date = as.Date(Date, format = "%d/%m/%Y"), Time = strptime(Time, format="%H:%M:%S"))
+        ## concatenate Date and Time Column to into DateTime
+        res$DateTime <- paste(res$Date, res$Time, " ")
+        ## convert Date and DateTime variables to Date/Time classes in R using:
+        ## as.Date: converts charcters to Date using "dd/mm/yyyy" format 
+        ## strptime: converts character to time (POSIXlt) using "hh:mm:ss" format
+        res <- transform(res, Date = as.Date(Date, format = "%d/%m/%Y"), DateTime = strptime(DateTime, format="%d/%m/%Y %H:%M:%S"))
         ## subsets data based from the dates 2007-02-01 and 2007-02-02
         res <- res[res$Date %in% as.Date(c('2007-02-01', '2007-02-02'), format = "%Y-%m-%d"), ]
         res
