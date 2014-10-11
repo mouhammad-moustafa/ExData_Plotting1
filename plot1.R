@@ -12,7 +12,6 @@ histGlobalActivePower <- function(){
 ## Margin are adjusted to replicate the reference plot.
 histData <- function(data){
         png(file = "plot1.png", width = 480, height = 480, bg = "transparent")
-        par(mfrow = c(1,1), mar = c(3.8, 3.8, 3.4, 0.1))
         hist(data$Global_active_power, col="red", main = "Global Active Power", xlab = "Global Active Power (kilowatts)")
         dev.off()
 }
