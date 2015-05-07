@@ -1,29 +1,21 @@
-source("readData.R")
-
-## Reads the Data and plot plot3.png 
-plot3 <- function(){
-        data <- readData()
-        plotPng3(data)
-        
-}
+source("plot1.R")
 
 ## Construct plot3 and save it to a plot3.png file 
-## with a width of 480 pixels and a height of 480 pixels.
-## Margin are adjusted to replicate the reference plot.
-plotPng3 <- function(data){
-        png(file = "plot3.png", width = 480, height = 480, bg = "transparent")
-        par(mfrow = c(1,1), mar = c(4.8, 4.1, 3.4, 2))
-        plotGraph3(data)
+## with a width of 480 pixels and a height of 480 pixels and transparent background.
+plot3 <- function(){
+        data <- readData()
+        ## Open PNG Device: create plot3.png file with a width of 480 pixels and a height of 480 pixels.
+        png(filename = "plot3.png", width = 480, height = 480, bg = "transparent")
+        ## Create a plot of Sub_metering_1, Sub_metering_2 and Sub_metering_3 
+        ## by DateTime and send to a file (no plot appears on screen)
+        with(data, {
+                plot(x = DateTime, y = Sub_metering_1, main = "", type = "l" , xlab = "" , ylab = "Energy sub metering")
+                lines(x = DateTime, y = Sub_metering_2, col = "red")
+                lines(x = DateTime, y = Sub_metering_3, col = "blue")        
+        })
+        
+        legend("topright", lwd = 1, col = c("black", "red", "blue")
+                                  , legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+        ## Close the PNG file device
         dev.off()
 }
-
-## plots Graph 3
-plotGraph3 <- function(data, legendBorder = "y"){
-        ## type = l for lines
-        plot(x = data$DateTime, y = data$Sub_metering_1, type ="l", xlab = "", ylab = "Energy sub metering")
-        lines(x = data$DateTime, y = data$Sub_metering_2, type = "l", col="red")
-        lines(x = data$DateTime, y = data$Sub_metering_3, type = "l", col="blue")
-        legend("topright", legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
-               col = c("black", "red", "blue"), lwd = 1, bty = legendBorder)
-}
-

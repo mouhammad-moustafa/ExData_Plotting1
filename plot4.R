@@ -1,40 +1,45 @@
-source("readData.R")
-source("plot2.R")
-source("plot3.R")
+source("plot1.R")
 
-## Reads the Data and plot plot4.png 
+## Construct plot4 and save it to a plot3.png file 
+## with a width of 480 pixels and a height of 480 pixels and transparent background.
 plot4 <- function(){
         data <- readData()
-        plotPng4(data)
         
-}
-
-## Construct plot4 and save it to a plot4.png file 
-## with a width of 480 pixels and a height of 480 pixels.
-## Margin are adjusted to replicate the reference plot.
-plotPng4 <- function(data){
-        png(file = "plot4.png", width = 480, height = 480, bg = "transparent")
-        plotGraph4(data)
+        ## Open PNG Device: create plot4.png file with a width of 480 pixels and a height of 480 pixels.
+        png(filename = "plot4.png", width = 480, height = 480, bg = "transparent")
+        
+        ## Multi paneled ploting window with 2 rows and 2 columns of plots 
+        par(mfrow = c(2, 2))
+        
+        ## Create 4 plots:
+        with(data, {
+                ## 1. Global_active_power by DateTime
+                plot(x = DateTime, y = Global_active_power, main = "", type = "l"
+                     , xlab = ""
+                     , ylab = "Global Active Power")
+        
+                ## 2. Voltage by DateTime
+                plot(x = DateTime, y = Voltage, main = "", type = "l"
+                        , xlab = "datetime"
+                        , ylab = "Voltage")
+        
+                ## 3. Sub_metering_1, Sub_metering_2 and Sub_metering_3 by DateTime
+                plot(x = DateTime, y = Sub_metering_1, main = "", type = "l"
+                        , xlab = ""
+                        , ylab = "Energy sub metering")
+                lines(x = DateTime, y = Sub_metering_2, col = "red")
+                lines(x = DateTime, y = Sub_metering_3, col = "blue")     
+                legend("topright", lwd = 1, col = c("black", "red", "blue"), bty = "n"
+                        , legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+        
+                ## 4. Global_reactive_power b y DateTime
+                plot(x = DateTime, y = Global_reactive_power, main = "", type = "l"
+                        , xlab = "datetime"
+                        , ylab = "Global_reactive_power")
+        })
+             
+        ## And send to a file (no plot appears on screen)
+        
+        ## Close the PNG file device
         dev.off()
-}
-
-## Construct plot4
-plotGraph4 <- function(data){
-        par(mfrow = c(2,2), mar = c(4.8, 4.1, 3.4, 2))
-        ## type = l for lines
-        plotGraph2(data, ylabel = "Global Active Power")
-        plotTopRightGraph(data)
-        plotGraph3(data, "n")
-        plotBottomRightGraph(data)
-
-}
-
-## plots the top right graphics 
-plotTopRightGraph <- function(data){
-        plot(x = data$DateTime, y = data$Voltage, type ="l", xlab = "datetime", ylab = "voltage")
-}
-
-## plots the bottom right graphics
-plotBottomRightGraph <- function(data){
-        plot(x = data$DateTime, y = data$Global_reactive_power, type ="s", xlab = "datetime", ylab = "Global_reactive_power")
 }
